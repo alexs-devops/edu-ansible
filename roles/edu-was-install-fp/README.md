@@ -11,9 +11,15 @@ edu-was-start
 Example Playbook
 ----------------
 - hosts: all
+  strategy: free
+  # any_errors_fatal: true 
   become: yes
   roles:
-    - manage_fixpack
+    - edu-was-install-fp
+
+TODO
+--------
+For prd add serial
 
 License
 -------

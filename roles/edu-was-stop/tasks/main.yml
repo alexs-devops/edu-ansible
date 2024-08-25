@@ -1,0 +1,36 @@
+---
+- name: Import stop web servers tasks
+  import_tasks: stop_web_servers.yml
+  async: 10  # Time in seconds for how long the task should run asynchronously
+  poll: 10    # Interval in seconds to check if the task has completed
+  register: stop_web_servers_result
+
+- name: Import stop solr servers tasks
+  import_tasks: stop_solr.yml
+  async: 300
+  poll: 10
+  register: stop_solr_result
+
+- name: Import stop app servers tasks
+  import_tasks: stop_app.yml
+  async: 300
+  poll: 10
+  register: stop_app_result
+
+- name: Wait for all async tasks to complete
+  async_status:
+    jid: "{{ item.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 5  # Number of times to retry checking for completion
+  delay: 5   # Delay between retries
+  loop:
+    - "{{ stop_web_result }}"
+    - "{{ stop_solr_result }}"
+    - "{{ stop_app_result }}"
+
+- name: Fail if any async task failed
+  fail:
+     msg: "One or more tasks failed"
+  when: >
+    job_result.results | selectattr('failed', 'defined') | list | length > 0

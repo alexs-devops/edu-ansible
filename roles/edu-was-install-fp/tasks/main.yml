@@ -1,6 +1,4 @@
 ---
-- import_tasks: check_disk_space.yml
-
 - import_tasks: copy_and_unzip.yml
 
 - name: Execute the installation script install_im.sh

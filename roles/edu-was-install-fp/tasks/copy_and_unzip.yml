@@ -1,0 +1,19 @@
+---
+- name: Copy the zip archive to the remote hosts
+  copy:
+    src: "{{ zip_source }}"
+    dest: "{{ install_dir }}"
+  notify:
+    - Validate Disk Space
+
+- name: Unzip the archive on remote hosts
+  unarchive:
+    src: "{{ install_dir }}/fix_pack.v8.5.zip"
+    dest: "{{ install_dir }}"
+    remote_src: yes
+
+- name: Set permissions to 755 for the install directory
+  file:
+    path: "{{ install_dir }}"
+    mode: '0755'
+    recurse: yes
