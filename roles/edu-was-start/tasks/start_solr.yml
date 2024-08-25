@@ -1,0 +1,19 @@
+---
+- name: Start Solr servers
+  command: "{{ start_node_script }} && {{ start_appserver_script }} {{ item }}"
+  with_items: "{{ solr_app_name }}"
+  register: solr_process
+  when: "'solr_app' in group_names"
+
+- name: Check if Solr is running
+  command: "ps -ef | grep java | grep {{ item }}"
+  with_items: "{{ solr_app_name }}"
+  register: solr_process_check
+  changed_when: true
+  when: "'solr_app' in group_names"
+
+- name: Debug Solr process
+  debug:
+    msg: "{{ item.stdout }}"
+  with_items: "{{ solr_process_check.results }}"
+  when: "'solr_app' in group_names"

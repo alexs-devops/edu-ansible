@@ -1,0 +1,19 @@
+---
+- name: Start App servers
+  command: "{{ start_node_script }} && {{ start_appserver_script }} {{ item }}"
+  with_items: "{{ app_app_name }}"
+  register: app_process
+  when: "'app_server' in group_names"
+
+- name: Check if App is running
+  command: "ps -ef | grep java | grep {{ item }}"
+  with_items: "{{ app_app_name }}"
+  register: app_process_check
+  changed_when: true
+  when: "'app_server' in group_names"
+
+- name: Debug App process
+  debug:
+    msg: "{{ item.stdout }}"
+  with_items: "{{ app_process_check.results }}"
+  when: "'app_server' in group_names"

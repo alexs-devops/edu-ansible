@@ -1,0 +1,11 @@
+---
+- name: Install packages on Solr and App servers
+  hosts: all #"{{ solr_app }}"
+  become: yes
+  vars_files:
+    - "{{ role_path }}/vars/packages.yml"
+  tasks:
+    - name: Ensure required packages are installed on Solr and App servers
+      package:
+        name: "{{ general_packages }}"
+        state: latest

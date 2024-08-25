@@ -1,19 +1,4 @@
-MYSQL DB
-====================================
-Role to install MYSQL DB
+Role Name
+=========
 
-Dependencises
-------------------------------
-Python must be installed
-
-Example playbook
-------------------------------
-Including the example of how to use the role
-
-License
--------
-BSD
-
-Author info
-------------
-Git: alexs-devops
+Test project from ansible-hands-on

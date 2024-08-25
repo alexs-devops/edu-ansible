@@ -1,0 +1,19 @@
+- name: Validate Disk Space
+  set_fact:
+    dirs_to_check:
+      - path: /usr/opt/app
+        required_space_gb: 30
+      - path: /tmp
+        required_space_gb: 10
+
+- name: Check available disk space for each directory
+  command: df -BG {{ item.path }} | tail -1 | awk '{print $4}' | sed 's/G//'
+  register: disk_space_results
+  with_items: "{{ dirs_to_check }}"
+  changed_when: false
+
+- name: Fail if there is not enough disk space
+  fail:
+    msg: "Not enough disk space on {{ item.item.path }}. Required: {{ item.item.required_space_gb }}GB, Available: {{ item.stdout }}GB"
+  when: item.stdout|int < item.item.required_space_gb
+  with_items: "{{ disk_space_results.results }}"

@@ -1,0 +1,23 @@
+---
+# Paths for directories to archive for each group
+solr_app_dirs_to_archive:
+  - /path/to/solr_ear
+  - /path/to/solr_web_server
+
+web_server_dirs_to_archive:
+  - /path/to/web_server_dir
+  - /path/to/web_server_plugin_dir
+
+app_server_dirs_to_archive:
+  - /path/to/app_server_ear_dir
+  - /path/to/wc_product_dir
+
+# Archive file location
+archive_destination: /usr/opt/app/backup
+
+# Source and destination for the zip file
+zip_source: /usr/opt/app/fix_pack.v8.5.zip
+install_dir: /usr/opt/app/install_fp
+
+# Required disk space in GB
+required_disk_space_gb: 30

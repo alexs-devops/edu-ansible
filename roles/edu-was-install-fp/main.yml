@@ -1,0 +1,29 @@
+---
+- import_tasks: check_disk_space.yml
+
+- import_tasks: copy_and_unzip.yml
+
+- name: Execute the installation script install_im.sh
+  command: ./install_im.sh
+  args:
+    chdir: "{{ install_dir }}"
+  register: install_im_result
+  failed_when: install_im_result.rc != 0
+
+- import_tasks: archive_dirs.yml
+
+- import_role:
+    name: edu-was-stop
+  when: "'solr_app' in group_names or 'web_server' in group_names or 'app_server' in group_names"
+
+- name: Execute the final installation script install_fp.sh
+  command: ./usr/opt/app/install_fp/install_fp.sh
+  args:
+    chdir: "{{ install_dir }}"
+  register: install_fp_result
+  failed_when: install_fp_result.rc != 0
+
+  ## TODO add log verification
+  #- import_role:
+  #  name: edu-was-start
+  #when: "'solr_app' in group_names or 'web_server' in group_names or 'app_server' in group_names"

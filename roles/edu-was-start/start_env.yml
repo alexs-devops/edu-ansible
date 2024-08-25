@@ -1,0 +1,4 @@
+---
+- import_tasks: start_web_servers.yml
+- import_tasks: start_solr_servers.yml
+- import_tasks: start_app_servers.yml

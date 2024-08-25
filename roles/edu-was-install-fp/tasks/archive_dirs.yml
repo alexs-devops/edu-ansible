@@ -1,0 +1,21 @@
+---
+- name: Archive directories for Solr group
+  archive:
+    path: "{{ item }}"
+    dest: "{{ archive_destination }}/solr_app_{{ inventory_hostname }}.tar.gz"
+  loop: "{{ solr_app_dirs_to_archive }}"
+  when: "'solr_app' in group_names"
+
+- name: Archive directories for Web Server group
+  archive:
+    path: "{{ item }}"
+    dest: "{{ archive_destination }}/web_server_{{ inventory_hostname }}.tar.gz"
+  loop: "{{ web_server_dirs_to_archive }}"
+  when: "'web_server' in group_names"
+
+- name: Archive directories for App Server group
+  archive:
+    path: "{{ item }}"
+    dest: "{{ archive_destination }}/app_server_{{ inventory_hostname }}.tar.gz"
+  loop: "{{ app_server_dirs_to_archive }}"
+  when: "'app_server' in group_names"

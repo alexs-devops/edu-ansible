@@ -1,0 +1,7 @@
+---
+wasbin: "/usr/opt/app/WebShere/Appserver/bin"
+restart_script_path: /usr/bin/restartWeb.sh
+stop_node_script: "{{ wasbin }}"/./stopNode.sh
+stop_appserver_script: "{{ wasbin }}"/./stopAppserver.sh
+start_node_script: "{{ wasbin }}"/./startNode.sh
+start_appserver_script: "{{ wasbin }}"/./startAppserver.sh

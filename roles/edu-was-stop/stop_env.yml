@@ -1,0 +1,4 @@
+---
+- import_tasks: stop_web_server.yml
+- import_tasks: stop_solr_servers.yml
+- import_tasks: stop_app_servers.yml

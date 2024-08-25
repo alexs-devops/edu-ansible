@@ -1,0 +1,22 @@
+---
+- name: Start web servers
+  become: yes
+  command: "{{ restart_script_path }} start"
+  when: "'web_server' in group_names"
+
+- name: Wait for 10 seconds
+  pause:
+    seconds: 10
+  when: "'web_server' in group_names"
+
+- name: Check if httpd is running
+  become: yes
+  command: "ps -ef | grep httpd"
+  register: httpd_process
+  changed_when: true
+  when: "'web_server' in group_names"
+
+- name: Debug httpd process
+  debug:
+    msg: "{{ httpd_process.stdout }}"
+  when: "'web_server' in group_names"

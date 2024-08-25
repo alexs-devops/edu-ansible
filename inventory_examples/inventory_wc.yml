@@ -1,0 +1,43 @@
+all:
+  vars:
+    ansible_user: your_user  # Specify default user for SSH
+    ansible_ssh_private_key_file: /path/to/private/key  # Specify SSH private key if needed
+    ansible_python_interpreter: /usr/bin/python3  # Specify Python interpreter
+
+  children:
+    solr_app:
+      children:
+        solr_app_dev1:
+          hosts:
+            solrappdev01:
+              ansible_host: solrappdev01.example.com  # Optional: specify FQDN or IP
+        solr_app_tst1:
+          hosts:
+            solrtstapp01:
+              ansible_host: solrtstapp01.example.com  # Optional: specify FQDN or IP
+    
+    app_server:
+      children:
+        app_server_dev1:
+          hosts:
+            ws8devapp01:
+              ansible_host: ws8devapp01.example.com  # Optional: specify FQDN or IP
+        app_server_tst1:
+          hosts:
+            ws8tstapp01:
+              ansible_host: ws8tstapp01.example.com  # Optional: specify FQDN or IP
+            ws8tstapp02:
+              ansible_host: ws8tstapp02.example.com  # Optional: specify FQDN or IP
+    
+    web_server:
+      children:
+        web_server_dev1:
+          hosts:
+            webdev01:
+              ansible_host: webdev01.example.com  # Optional: specify FQDN or IP
+        web_server_tst1:
+          hosts:
+            webtst01:
+              ansible_host: webtst01.example.com  # Optional: specify FQDN or IP
+            webtst02:
+              ansible_host: webtst02.example.com  # Optional: specify FQDN or IP

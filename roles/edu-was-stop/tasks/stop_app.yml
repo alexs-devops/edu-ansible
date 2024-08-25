@@ -1,0 +1,18 @@
+---
+- name: Stop App servers
+  command: "{{ stop_node_script }} && {{ stop_appserver_script }} {{ item }}"
+  with_items: "{{ app_app_name }}"
+  when: "'app_server' in group_names"
+
+  - name: Check if App is running
+  command: "ps -ef | grep java | grep {{ item }}"
+  with_items: "{{ app_app_name }}"
+  register: app_process_check
+  changed_when: false
+  when: "'app_server' in group_names"
+
+- name: Debug App process
+  debug:
+    msg: "{{ item.stdout }}"
+  with_items: "{{ app_process_check.results }}"
+  when: "'app_server' in group_names"
